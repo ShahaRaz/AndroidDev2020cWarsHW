@@ -48,23 +48,26 @@
 
             <Button
                 android:id="@+id/btn_main_atk1"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="0"
                 android:text="wind 10" />
 
             <Button
                 android:id="@+id/btn_main_atk2"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="1"
                 android:text="laser 20" />
 
             <Button
                 android:id="@+id/btn_main_atk3"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="2"
                 android:text="fire 50 " />
 
         </LinearLayout>
@@ -103,6 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:tag="3"
                 android:text="wind 10" />
 
             <Button
@@ -110,13 +114,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:tag="4"
                 android:text="laser 20" />
 
             <Button
                 android:id="@+id/btn_main_atk6"
-                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:tag="5"
                 android:text="fire 50 " />
 
         </LinearLayout>
