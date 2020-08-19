@@ -33,6 +33,7 @@
 
 
             <ImageView
+                android:contentDescription="Player1 image"
                 android:id="@+id/img_main_player1"
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
@@ -41,89 +42,108 @@
 
         </RelativeLayout>
 
+
+
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <Button
+                android:background="@color/colorAttackButtons"
                 android:id="@+id/btn_main_atk1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="0"
-                android:text="wind 10" />
+                android:text="@string/kick" />
 
             <Button
+                android:background="@color/colorAttackButtons"
                 android:id="@+id/btn_main_atk2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="1"
-                android:text="laser 20" />
+                android:text="@string/bat_attack" />
 
             <Button
+                android:background="@color/colorAttackButtons"
                 android:id="@+id/btn_main_atk3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="2"
-                android:text="fire 50 " />
+                android:text="@string/knives" />
 
         </LinearLayout>
 
-
-        <TableLayout
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/lay_main_winnerAnnouncement"
             android:layout_height="match_parent"
-            android:layout_weight="10">
+            android:layout_weight="1"
+            android:translationY="0dp"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="200dp"
+            android:layout_width="0dp">
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
 
-            <TableRow
+            <ImageView
+                android:contentDescription="Winner's image"
+                android:id="@+id/img_main_winnerPic"
+                android:alpha="0"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="250dp"
+                android:layout_weight="1"
+                android:paddingTop="4dp"
+                app:srcCompat="@drawable/ic_batman" />
 
-            <TableRow
+            <TextView
+                android:id="@+id/lbl_main_announceWinnerName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:alpha="0"
+                android:layout_height="50dp"
+                android:layout_below="@id/img_main_winnerPic"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/Player1Name"
+                android:textSize="20sp"/>
+        </RelativeLayout>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
 
         <LinearLayout
             android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:orientation="vertical">
 
             <Button
+                android:background="@color/colorAttackButtons"
                 android:id="@+id/btn_main_atk4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="3"
-                android:text="wind 10" />
+                android:text="@string/wind" />
 
             <Button
+                android:background="@color/colorAttackButtons"
                 android:id="@+id/btn_main_atk5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="4"
-                android:text="laser 20" />
+                android:text="@string/throw_car" />
 
             <Button
+                android:background="@color/colorAttackButtons"
                 android:id="@+id/btn_main_atk6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="5"
-                android:text="fire 50 " />
+                android:text="laser" />
 
         </LinearLayout>
 
@@ -148,14 +168,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_superman" />
-                android:contentDescription="TODO" />
+                android:src="@drawable/ic_superman" /><![CDATA[
+
+            android:contentDescription="TODO" />
 
 
+        ]]>
         </RelativeLayout>
 
 
 
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

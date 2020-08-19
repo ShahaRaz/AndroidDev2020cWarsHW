@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">WarsHW2020C</string>
+    <string name="Player1Name">Batman</string>
+    <string name="Player2Name">SuperMan</string>
+    <string name="wind">wind</string>
+    <string name="throw_car">throw car</string>
+    <string name="kick">kick</string>
+    <string name="bat_attack">Bat attack</string>
+    <string name="knives">knives</string>
+    <string name="winnerName">Batman</string>
+    <string name="winnerAnnouncement">Has Won</string>
 
 
 </resources>
