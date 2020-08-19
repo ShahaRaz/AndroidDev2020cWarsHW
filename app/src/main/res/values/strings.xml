@@ -9,6 +9,10 @@
     <string name="knives">knives</string>
     <string name="winnerName">Batman</string>
     <string name="winnerAnnouncement">Has Won</string>
+    <string name="player1_image">Player1 image</string>
+    <string name="winners_image">Winner\'s image</string>
+    <string name="laser">laser</string>
+    <string name="player2_image">player2_image</string>
 
 
 </resources>

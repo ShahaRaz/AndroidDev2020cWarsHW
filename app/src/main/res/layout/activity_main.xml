@@ -33,7 +33,7 @@
 
 
             <ImageView
-                android:contentDescription="Player1 image"
+                android:contentDescription="@string/player1_image"
                 android:id="@+id/img_main_player1"
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
@@ -89,12 +89,11 @@
 
 
             <ImageView
-                android:contentDescription="Winner's image"
+                android:contentDescription="@string/winners_image"
                 android:id="@+id/img_main_winnerPic"
                 android:alpha="0"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_weight="1"
                 android:paddingTop="4dp"
                 app:srcCompat="@drawable/ic_batman" />
 
@@ -143,7 +142,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:tag="5"
-                android:text="laser" />
+                android:text="@string/laser" />
 
         </LinearLayout>
 
@@ -162,18 +161,14 @@
                 android:id="@+id/prgrsBar_main_Player2ProgressBar"  />
 
             <ImageView
-
+                android:contentDescription="@string/player2_image"
                 android:id="@+id/img_main_player2"
                 android:layout_gravity="end"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_superman" /><![CDATA[
-
-            android:contentDescription="TODO" />
-
-
-        ]]>
+                android:src="@drawable/ic_superman"
+                 />
         </RelativeLayout>
 
 
