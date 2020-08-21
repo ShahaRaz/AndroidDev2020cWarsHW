@@ -6,6 +6,11 @@
     <color name="colorAttackButtons">#BF5B2B</color>
     <color name="lifeBarGreen">#35BF2B</color>
     <color name="lifeBarRed">#AF2030</color>
+    <color name="dice1">#434343</color>
+    <color name="dice2">#656565</color>
+    <color name="dice3">#707070</color>
+    <color name="dice4">#858585</color>
+
 
 
 </resources>
