@@ -3,8 +3,10 @@ package com.example.warshw2020c;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.IpSecManager;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -33,8 +35,11 @@ public class Activity_Battle extends AppCompatActivity {
     private ImageView img_main_diceResultP1;
     private ImageView img_main_diceResultP2;
     private Button btn_main_startGame;
-    int player1Dice;
-    int player2Dice;
+    private int player1Dice;
+    private int player2Dice;
+    private boolean isPlayer1PlayingNextTurn;
+    private int atkNum; // 2 players , 3 atks for each => atkNum [0,5] (in range)
+    private boolean isGameDone;
 
 
     @Override
@@ -49,10 +54,38 @@ public class Activity_Battle extends AppCompatActivity {
 
     private void InitGame() {
         associateButtons();
-        setDefaultFirstAttacker(); // more readable (even though it's one line method)
+        isGameDone=false;
+        isPlayer1PlayingNextTurn =true; // will be changed in lottery if needed
         StartDiceLottery();
         setProgressBars();
-        setDefaultWinnerTag();
+        setWinnerTags();
+//        startGameWTimer(); // after lottery
+    }
+
+    private void startGameWTimer() {
+        final Handler handler = new Handler();
+        final int delay = 2000;
+        final int count = 1; // TODO: 22/08/2020  delete me and stop the timer when announcing winner()
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!isGameDone)
+                    runNextTimedTurn();
+                handler.postDelayed(this,delay);
+            }
+        },delay);
+
+
+
+    }
+
+    private void runNextTimedTurn() {
+        int rndmAtkNum = (rng.nextInt(NUMBER_OF_ATTACKS)); // 0->2
+        if(isPlayer1PlayingNextTurn)
+            rndmAtkNum+=NUMBER_OF_ATTACKS; // player's 2 turn
+
+        atkButtonClicked(rndmAtkNum);
+
     }
 
     private void StartDiceLottery() {
@@ -60,6 +93,14 @@ public class Activity_Battle extends AppCompatActivity {
         img_main_diceResultP1 = findViewById((R.id.img_main_diceResultP1));
         img_main_diceResultP2 = findViewById((R.id.img_main_diceResultP2));
         lay_main_rollDice = findViewById(R.id.lay_main_rollDice);
+
+        btn_main_rollDice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rollDice();
+            }
+        });
+
 
         btn_main_startGame = findViewById(R.id.btn_main_startGame);
         //btn_main_startGame.setClickable(false);
@@ -70,21 +111,17 @@ public class Activity_Battle extends AppCompatActivity {
             }
         });
 
-
-        btn_main_rollDice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rollDice();
-            }
-        });
     }
 
     private void finishedLottery() {
         if(player2Dice>player1Dice)
-            toggleAtkGroup();// by default player1 starts
+            isPlayer1PlayingNextTurn=false;
+        toggleAtkGroup();// by default player1 starts
         lay_main_rollDice.setAlpha(0);
         pBar_main_Player1ProgressBar.setAlpha(1);
         pBar_main_Player2ProgressBar.setAlpha(1);
+        startGameWTimer();
+
     }
 
     private void rollDice() {
@@ -128,7 +165,7 @@ public class Activity_Battle extends AppCompatActivity {
     }
 
 
-    private void setDefaultWinnerTag() {
+    private void setWinnerTags() {
         lbl_main_announceWinnerName = findViewById(R.id.lbl_main_announceWinnerName);
         img_main_winnerPic = findViewById(R.id.img_main_winnerPic);
         lay_main_winnerAnnouncement = findViewById(R.id.lay_main_winnerAnnouncement);
@@ -138,6 +175,7 @@ public class Activity_Battle extends AppCompatActivity {
     private void setDefaultFirstAttacker() {
         //by default player 1 starts
         for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(false);
+        isPlayer1PlayingNextTurn =true;
 
     }
 
@@ -148,23 +186,25 @@ public class Activity_Battle extends AppCompatActivity {
         btnsPlayer_1_Attack.add((Button)findViewById(R.id.btn_main_atk2));
         btnsPlayer_1_Attack.add((Button)findViewById(R.id.btn_main_atk3));
         for(Button btn : btnsPlayer_1_Attack) btn.setOnClickListener(bottomClickeListener);
+        for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(false);
 
         btnsPlayer_2_Attack.add((Button)findViewById(R.id.btn_main_atk4));
         btnsPlayer_2_Attack.add((Button)findViewById(R.id.btn_main_atk5));
         btnsPlayer_2_Attack.add((Button)findViewById(R.id.btn_main_atk6));
         for(Button btn : btnsPlayer_2_Attack) btn.setOnClickListener(bottomClickeListener);
+        for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(false);
 
     }
-
 
     private View.OnClickListener bottomClickeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            atkButtonClicked(view);
+            atkNum = Integer.parseInt(((Button) view).getTag().toString());
+            atkButtonClicked(atkNum);
         }
     };
 
-    public void setProgressBars() {
+    private void setProgressBars() {
         pBar_main_Player1ProgressBar = findViewById(R.id.prgrsBar_main_Player1ProgressBar);
         pBar_main_Player2ProgressBar = findViewById(R.id.prgrsBar_main_Player2ProgressBar);
         pBar_main_Player1ProgressBar.setBackgroundColor(getColor(R.color.lifeBarGreen));
@@ -175,19 +215,19 @@ public class Activity_Battle extends AppCompatActivity {
         pBar_main_Player2ProgressBar.setProgress(MAX_HP);
     }
 
-    private void atkButtonClicked(View view) {
-
-        int damagedHP = reduceDamageFromOpp(view);
-        changeColor(damagedHP,view);
+    private void atkButtonClicked(int atkNumber) {
+        //0->2 player 1 attacked  // 3->5 player 2 attacked
+        int damagedHP = reduceDamageFromOpp(atkNumber);
+        changeColor(damagedHP,atkNumber);
+        checkWinner(damagedHP, atkNumber);
         toggleAtkGroup();
-        checkWinner(damagedHP, view);
+
 
     }
 
-    private void changeColor(int damagedHP,View view) {
+    private void changeColor(int damagedHP,int atkNumber) {
         if(damagedHP<HP_RED_BAR_VALUE){
-            int idOfBtn = Integer.parseInt(((Button) view).getTag().toString());
-            if (idOfBtn / NUMBER_OF_ATTACKS == 0) // player 1
+            if (atkNumber / NUMBER_OF_ATTACKS == 0) // player 1
                 pBar_main_Player2ProgressBar.setBackgroundColor(getColor(R.color.lifeBarRed));
             else
                 pBar_main_Player1ProgressBar.setBackgroundColor(getColor(R.color.lifeBarRed));
@@ -197,10 +237,9 @@ public class Activity_Battle extends AppCompatActivity {
 
     }
 
-    private void checkWinner(int damagedHP, View view) {
+    private void checkWinner(int damagedHP,int atkNumber) {
         if (damagedHP < 1) {
-            int idOfBtn = Integer.parseInt(((Button) view).getTag().toString());
-            if (idOfBtn / NUMBER_OF_ATTACKS == 0)
+            if (atkNumber / NUMBER_OF_ATTACKS == 0)
                 announceWinner(getString(R.string.Player1Name)); // change to variable String
             else
                 announceWinner(getString(R.string.Player2Name)); // change to variable String
@@ -213,7 +252,7 @@ public class Activity_Battle extends AppCompatActivity {
     }
 
     private void announceWinner(String playerName) {
-        lay_main_winnerAnnouncement.setTranslationY(0);
+        isGameDone=true;
         if(playerName.equals(getString(R.string.Player2Name))){
             img_main_winnerPic.setImageDrawable(getDrawable(R.drawable.ic_superman));
             setLblAnnounceWinner(getText(R.string.Player2Name));
@@ -224,40 +263,40 @@ public class Activity_Battle extends AppCompatActivity {
 
         }
         lay_main_winnerAnnouncement.animate().rotation(720).alpha(1).setDuration(1000);
-
         setLblAnnounceWinner(getText(R.string.Player1Name));
 
     }
 
     private void setLblAnnounceWinner(CharSequence playerName) {
-        lbl_main_announceWinnerName.setText( playerName + " " + getText(R.string.winnerAnnouncement));
+        String lblText = playerName + " " + getText(R.string.winnerAnnouncement);
+        lbl_main_announceWinnerName.setText(lblText);
     }
 
     private void toggleAtkGroup() {
-        if (btnsPlayer_1_Attack.get(0).isEnabled()) { //
-            for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(false);
-            for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(true);
-
-        } else {
+        if (isPlayer1PlayingNextTurn) { //
             for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(true);
             for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(false);
-
+            isPlayer1PlayingNextTurn=false;
+        }
+        else {
+            for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(false);
+            for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(true);
+            isPlayer1PlayingNextTurn=true;
         }
 
     }
 
 
-    public int reduceDamageFromOpp(View view) {
-        int idOfBtn = Integer.parseInt(((Button) view).getTag().toString());
-        Log.i("id in button  ", idOfBtn + " ");
+    private int reduceDamageFromOpp(int atkNumber) {
+        Log.i("id in button  ", atkNumber + " ");
         int currentHP;
-        if (idOfBtn / NUMBER_OF_ATTACKS == 0) { // player 1 is attacking
+        if (atkNumber / NUMBER_OF_ATTACKS == 0) { // player 1 is attacking
             currentHP = pBar_main_Player2ProgressBar.getProgress();
-            if (idOfBtn % NUMBER_OF_ATTACKS == 0)
+            if (atkNumber % NUMBER_OF_ATTACKS == 0)
                 currentHP -= 10;
-            else if (idOfBtn % NUMBER_OF_ATTACKS == 1)
+            else if (atkNumber % NUMBER_OF_ATTACKS == 1)
                 currentHP -= 20;
-            else //(idOfBtn%NUMBER_OF_ATTACKS==2)
+            else //(atkNumber%NUMBER_OF_ATTACKS==2)
                currentHP -= 50;
 
             pBar_main_Player2ProgressBar.setProgress(currentHP);
@@ -265,11 +304,11 @@ public class Activity_Battle extends AppCompatActivity {
 
         } else { // player 2 is attacking
             currentHP = pBar_main_Player1ProgressBar.getProgress();
-            if (idOfBtn % NUMBER_OF_ATTACKS == 0)
+            if (atkNumber % NUMBER_OF_ATTACKS == 0)
                 currentHP -= 10;
-            else if (idOfBtn % NUMBER_OF_ATTACKS == 1)
+            else if (atkNumber % NUMBER_OF_ATTACKS == 1)
                 currentHP -= 20;
-            else // (idOfBtn%NUMBER_OF_ATTACKS==2)
+            else // (atkNumber%NUMBER_OF_ATTACKS==2)
                 currentHP -= 50;
 
             pBar_main_Player1ProgressBar.setProgress(currentHP);
