@@ -9,9 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:label="Wars HW"
+            android:name=".Activity_Battle"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Wars HW"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

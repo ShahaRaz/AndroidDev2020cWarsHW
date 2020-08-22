@@ -13,6 +13,10 @@
     <string name="winners_image">Winner\'s image</string>
     <string name="laser">laser</string>
     <string name="player2_image">player2_image</string>
+    <string name="roll_dice">Roll Dice</string>
+    <string name="start_game">Start Game</string>
+    <string name="player_1_dice_result">Player 1 dice result</string>
+    <string name="player_2_dice_result">Player 2 dice result</string>
 
 
 </resources>
