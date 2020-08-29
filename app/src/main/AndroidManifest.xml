@@ -2,20 +2,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.warshw2020c">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
+        android:name=".Utilities.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Board.Activity_TopNBoard"></activity>
         <activity
             android:name=".Activity_Battle"
+  ></activity>
+        <activity
+            android:name=".Activity_Menu"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="Wars HW"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

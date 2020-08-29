@@ -27,15 +27,15 @@
                 android:layout_height="10dp"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_marginBottom="10dp"
-                android:layout_above="@+id/img_main_player1"
+                android:layout_above="@+id/img_battle_player1"
                 android:alpha="0"
-                android:id="@+id/prgrsBar_main_Player1ProgressBar"  />
+                android:id="@+id/prgrsBar_battle_Player1ProgressBar"  />
 
 
 
             <ImageView
                 android:contentDescription="@string/player1_image"
-                android:id="@+id/img_main_player1"
+                android:id="@+id/img_battle_player1"
                 android:layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -52,7 +52,7 @@
 
             <Button
                 android:background="@color/colorAttackButtons"
-                android:id="@+id/btn_main_atk1"
+                android:id="@+id/btn_battle_atk1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -61,7 +61,7 @@
 
             <Button
                 android:background="@color/colorAttackButtons"
-                android:id="@+id/btn_main_atk2"
+                android:id="@+id/btn_battle_atk2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -70,7 +70,7 @@
 
             <Button
                 android:background="@color/colorAttackButtons"
-                android:id="@+id/btn_main_atk3"
+                android:id="@+id/btn_battle_atk3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -86,21 +86,23 @@
             android:layout_weight="1">
 
 
+
             <LinearLayout
-                android:id="@+id/lay_main_rollDice"
+                android:id="@+id/lay_battle_rollDice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:alpha="100"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btn_main_startGame"
+                    android:id="@+id/btn_battle_startGame"
                     android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/start_game" />
 
                 <ImageButton
-                    android:id="@+id/btn_main_rollDice"
+                    android:id="@+id/btn_battle_rollDice"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="5"
@@ -116,7 +118,7 @@
 
                     <ImageButton
                         android:contentDescription="@string/player_1_dice_result"
-                        android:id="@+id/img_main_diceResultP1"
+                        android:id="@+id/img_battle_diceResultP1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -126,7 +128,7 @@
 
                     <ImageButton
                         android:contentDescription="@string/player_2_dice_result"
-                        android:id="@+id/img_main_diceResultP2"
+                        android:id="@+id/img_battle_diceResultP2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -138,16 +140,16 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lay_main_winnerAnnouncement"
+                android:id="@+id/lay_battle_winnerAnnouncement"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:alpha="0"
                 tools:layout_editor_absoluteX="200dp">
 
 
                 <ImageView
-                    android:id="@+id/img_main_winnerPic"
+                    android:id="@+id/img_battle_winnerPic"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -157,14 +159,36 @@
                     app:srcCompat="@drawable/ic_batman" />
 
                 <TextView
-                    android:id="@+id/lbl_main_announceWinnerName"
+                    android:id="@+id/lbl_battle_announceWinnerName"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
+                    android:layout_height="40dp"
                     android:layout_gravity="center_horizontal"
                     android:alpha="100"
                     android:gravity="center_horizontal|center_vertical"
                     android:text="@string/Player1Name"
                     android:textSize="20sp" />
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_battle_BoardButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="ScoreBoard" />
+
+                    <Button
+                        android:id="@+id/btn_battle_backButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="@string/main_menu" />
+                </LinearLayout>
+
             </LinearLayout>
 
         </RelativeLayout>
@@ -177,7 +201,7 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/btn_main_atk4"
+                android:id="@+id/btn_battle_atk4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -186,7 +210,7 @@
                 android:text="@string/wind" />
 
             <Button
-                android:id="@+id/btn_main_atk5"
+                android:id="@+id/btn_battle_atk5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -195,7 +219,7 @@
                 android:text="@string/throw_car" />
 
             <Button
-                android:id="@+id/btn_main_atk6"
+                android:id="@+id/btn_battle_atk6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -215,13 +239,13 @@
                 android:layout_height="10dp"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_marginBottom="10dp"
-                android:layout_above="@+id/img_main_player2"
+                android:layout_above="@+id/img_battle_player2"
                 android:alpha="0"
-                android:id="@+id/prgrsBar_main_Player2ProgressBar"  />
+                android:id="@+id/prgrsBar_battle_Player2ProgressBar"  />
 
             <ImageView
                 android:contentDescription="@string/player2_image"
-                android:id="@+id/img_main_player2"
+                android:id="@+id/img_battle_player2"
                 android:layout_gravity="end"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"

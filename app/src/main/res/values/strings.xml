@@ -17,6 +17,19 @@
     <string name="start_game">Start Game</string>
     <string name="player_1_dice_result">Player 1 dice result</string>
     <string name="player_2_dice_result">Player 2 dice result</string>
-
+    <string name="score_board">Score Board</string>
+    <string name="top_10_best_scores">Top 10 best Scores</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="_1_best_name">1 best name</string>
+    <string name="_2_best_name">2 best name</string>
+    <string name="_3_best_name">3 best name</string>
+    <string name="_4_best_name">4 best name</string>
+    <string name="_5_best_name">5 best name</string>
+    <string name="_6_best_name">6 best name</string>
+    <string name="_7_best_name">7 best name</string>
+    <string name="_8_best_name">8 best name</string>
+    <string name="_9_best_name">9 best name</string>
+    <string name="_10_best_name" >10 best name</string>
+>
 
 </resources>

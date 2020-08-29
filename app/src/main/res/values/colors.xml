@@ -3,7 +3,7 @@
     <color name="colorPrimary">#6B1A78</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="colorAttackButtons">#BF5B2B</color>
+    <color name="colorAttackButtons">#60C8FF</color>
     <color name="lifeBarGreen">#35BF2B</color>
     <color name="lifeBarRed">#AF2030</color>
     <color name="dice1">#434343</color>
