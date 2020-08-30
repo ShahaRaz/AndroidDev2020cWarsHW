@@ -3,6 +3,7 @@ package com.example.warshw2020c.Board;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.example.warshw2020c.TopScore;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Activity_TopNBoard extends AppCompatActivity {
     private ArrayList<TextView> txt_top10_nN = new ArrayList<TextView>();
@@ -29,21 +31,53 @@ public class Activity_TopNBoard extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__top10_board);
+      //  getDataFromSP();
+        associateViews();
+      //  addTextToButtons();
+
+    }
+
+    private void addTextToButtons() {
+        for(int i=0;i<TopNListData.NUMBER_OF_TOP_SCORES_RECORDED;i++){
+            txt_top10_nN.get(i).setText((i+1) + ") " + topNList.getArr().get(i).toString());
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDataFromSP();
+        addTextToButtons();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveDataToSP();
+
+
+    }
+
+    private void saveDataToSP() {
+        Gson json = new Gson();
+        String boardAsJson =  json.toJson(this.topNList);
+        MySPV3.getInstance().putString(MySPV3.KEYS.TOP_N_LIST_OBJ ,boardAsJson);
+    }
+
+    private void getDataFromSP() {
         /* get data from Shared Pref */
         getTopNList();
         boolean isLastScoreAvailable = getLastScore();
-        if(isLastScoreAvailable)
-            findPlaceOfLastScore(); // only if needed
-
-
-        associateViews();
-
+        if(isLastScoreAvailable) {
+            topNList.findPlaceOfScore(lastScore);
+            MySPV3.getInstance().putString(MySPV3.KEYS.LAST_GAME,"NA"); // prevent from reading again same score
+        }
 
     }
 
-    private void findPlaceOfLastScore() {
-        boolean isLastScoreTop = topNList.findPlaceOfScore(lastScore);
-    }
+
 
     private boolean getLastScore() {
         String lastScoreAsJson = MySPV3.getInstance().getString(MySPV3.KEYS.LAST_GAME,"NA");
@@ -57,16 +91,17 @@ public class Activity_TopNBoard extends AppCompatActivity {
         }
     }
 
+
+
     private void getTopNList() {
         String topListAsJson = MySPV3.getInstance().getString(MySPV3.KEYS.TOP_N_LIST_OBJ,"NA");
         if(topListAsJson.equalsIgnoreCase("NA")){
-             topNList = new TopNListData( createNewEmptyList());
+            topNList = new TopNListData( createNewEmptyList());
         }
-        else{
+        else {
             Gson gson = new Gson();
             topNList = gson.fromJson(topListAsJson, TopNListData.class);
         }
-
     }
 
 
@@ -90,19 +125,17 @@ public class Activity_TopNBoard extends AppCompatActivity {
         txt_top10_nN.add((TextView)findViewById(R.id.txt_top10_n9));
         txt_top10_nN.add((TextView)findViewById(R.id.txt_top10_n10));
 
-        for(int i=0;i<10;i++){
-            txt_top10_nN.get(i).setText((i+1) + topNList.getArr().get(i).toString());
-        }
+
     }
 
 
 
-    private ArrayList<TopScore> createNewEmptyList() {
-        ArrayList<TopScore> tempArr = new ArrayList<TopScore>();
+    private LinkedList<TopScore> createNewEmptyList() {
+        LinkedList<TopScore> tempList = new LinkedList<>();
         for(int i=0;i<10;i++){
-            tempArr.add(createNewScore(i));
+            tempList.add(createNewScore(i));
         }
-        return tempArr;
+        return tempList;
     }
 
     private TopScore createNewScore(int PlayerIndexInName){

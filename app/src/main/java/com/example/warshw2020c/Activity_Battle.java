@@ -48,7 +48,6 @@ public class Activity_Battle extends AppCompatActivity {
     private Button btn_battle_backButton;
     private int hitCounterP1;
     private int hitCounterP2;
-    private int lowestHitCounter;
 
 
 
@@ -271,6 +270,11 @@ public class Activity_Battle extends AppCompatActivity {
 
     private void checkWinner(int damagedHP,int atkNumber) {
         if (damagedHP < 1) {
+            /*Disable buttons*/
+            for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(false);
+            for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(false);
+
+            /*check who is the winner */
             if (atkNumber / NUMBER_OF_ATTACKS == 0) {
                 announceWinner(getString(R.string.Player1Name),hitCounterP1);
             }
@@ -278,22 +282,21 @@ public class Activity_Battle extends AppCompatActivity {
                 announceWinner(getString(R.string.Player2Name),hitCounterP2);
 
             }
-            for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(false);
-            for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(false);
+
 
         }
 
     }
 
-    private void announceWinner(String playerName,int hitCount) {
+    private void announceWinner(String playerName,int winnersHitCount) {
 
         isGameDone=true;
-        saveBattleScoreToSP(playerName);
-
+        saveBattleScoreToSP(playerName,winnersHitCount);
 
         if(playerName.equals(getString(R.string.Player2Name))){
             img_battle_winnerPic.setImageDrawable(getDrawable(R.drawable.ic_superman));
             setLblAnnounceWinner(getText(R.string.Player2Name));
+
         }
         else{
             img_battle_winnerPic.setImageDrawable(getDrawable(R.drawable.ic_batman));
@@ -303,16 +306,18 @@ public class Activity_Battle extends AppCompatActivity {
 
         lay_battle_winnerAnnouncement.animate().rotation(720).alpha(1).setDuration(1000);
 
+
+
     }
 
-    private void saveBattleScoreToSP(String playerName){
+    private void saveBattleScoreToSP(String playerName,int winnersHitCount){
         if (!isGameDone)
             Log.d("saveBattleScoreToSP" , "cant save results if game not done yet");
 
         else{
             long currentTimeStamp =  System.currentTimeMillis() / 1000L;
             Gson json = new Gson();
-            String scoreAsJson =  json.toJson(new TopScore(30.0,30.0,currentTimeStamp, lowestHitCounter,playerName));
+            String scoreAsJson =  json.toJson(new TopScore(30.0,30.0,currentTimeStamp, winnersHitCount,playerName));
             MySPV3.getInstance().putString(MySPV3.KEYS.LAST_GAME ,scoreAsJson);
 
         }
@@ -321,6 +326,7 @@ public class Activity_Battle extends AppCompatActivity {
     private void setLblAnnounceWinner(CharSequence playerName) {
         String lblText = playerName + " " + getText(R.string.winnerAnnouncement);
         lbl_battle_announceWinnerName.setText(lblText);
+
     }
 
     private void toggleAtkGroup() {
@@ -354,7 +360,8 @@ public class Activity_Battle extends AppCompatActivity {
             pBar_battle_Player2ProgressBar.setProgress(currentHP);
             return currentHP; // updated after damage reduced
 
-        } else { // player 2 is attacking
+        }
+        else { // player 2 is attacking
             currentHP = pBar_battle_Player1ProgressBar.getProgress();
             hitCounterP2++;
             if (atkNumber % NUMBER_OF_ATTACKS == 0)

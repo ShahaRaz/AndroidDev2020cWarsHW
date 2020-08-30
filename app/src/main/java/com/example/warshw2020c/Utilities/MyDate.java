@@ -1,5 +1,9 @@
 package com.example.warshw2020c.Utilities;
 
+import android.text.format.DateFormat;
+
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Scanner;
 
 
@@ -9,7 +13,7 @@ public class MyDate {
         Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
     };
 
-    final static int CURRENT_YEAR = 2020;
+    final static int MINIMUM_YEAR = 2010;
     // MyDate date=new MyDate(19, 6, 2015);
 
     private int day;
@@ -18,21 +22,22 @@ public class MyDate {
     private final static int[] DAYS_MONTHS = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 
-// TODO: 25/08/2020 Change to Inorder to make it work
-//    public long getDayInWeekSundayInIndex0() {
-//        LocalDate sunDay = LocalDate.of(this.year, this.month, this.day).with(DayOfWeek.SUNDAY);
-//        sunDay = sunDay.minusDays(7);
-//        LocalDate mine = LocalDate.of(year, month, day);
-//        long almostDone = 	ChronoUnit.DAYS.between(sunDay, mine);
-//        if(almostDone==7)
-//            return 0;
-//        return almostDone;
-//    }
 
     public MyDate(int day, int month, int year) {
         setMonthNDay(day, month);
         setYear(year);
     }
+    public MyDate(long timeStamp){
+        String parseMeToObject  = parseTimeStampToString(timeStamp);
+        String[] splitToFields = parseMeToObject.split("-");
+        year = Integer.parseInt(splitToFields[0]);
+        month = Integer.parseInt(splitToFields[1]);
+        day = Integer.parseInt(splitToFields[2]);
+
+    }
+
+
+    public MyDate() { } // new MyDate().parseDateFromTimeStamp(timeStamp);
 
     // date Exception //
     public static int makeDate(Scanner s) {
@@ -56,9 +61,8 @@ public class MyDate {
 
 
     private void setYear(int year) {
-        if (year < CURRENT_YEAR) {
-            System.out.println("We take flights from 2020 and on ...\n going by default: 2020");
-            this.year = CURRENT_YEAR;
+        if (year < MINIMUM_YEAR) {
+            this.year = MINIMUM_YEAR;
         } else
             this.year = year;
     }
@@ -88,7 +92,7 @@ public class MyDate {
             this.day = 1;
     }
 
-    // TODO: 25/08/2020 Change to Inorder to make it work
+    // AVAILABLE IN API 26 and above
 //    public int daysCount(MyDate d) {
 //        LocalDate enter = LocalDate.of(year, month, day);
 //        LocalDate out = LocalDate.of(d.year, d.month, d.day);
@@ -97,7 +101,7 @@ public class MyDate {
 //        return diff;
 //    }
 
-    // TODO: 25/08/2020 Change to Inorder to make it work
+    // AVAILABLE IN API 26 and above
 //    public int yearsCount(MyDate endDate) {
 //        return (int) (daysCount(endDate)) / 365;
 //        // not considering leap year and maybe other stuff
@@ -157,7 +161,7 @@ public class MyDate {
         return false;
     }
 
-    public static MyDate ParseFromString(String date) {
+    public static MyDate parseFromString(String date) {
         //format: DD/MM/YYYY
         MyDate tempDate;
         try {
@@ -167,11 +171,11 @@ public class MyDate {
             int year = Integer.parseInt(splitToFields[2]);
             tempDate = new MyDate(day, month, year);
         }catch (Exception e){
-            tempDate = ParseFromHtmlString(date);
+            tempDate = parseFromHtmlString(date);
         }
         return tempDate;
     }
-    public static MyDate ParseFromHtmlString(String date) {
+    public static MyDate parseFromHtmlString(String date) {
         //format: YYYY-MM-DD
         String[] splitToFields = date.split("-");
         int year = Integer.parseInt(splitToFields[0]);
@@ -187,4 +191,12 @@ public class MyDate {
         scn.nextLine(); // clear buffer
         return new MyDate(day, month, year);
     }
+
+    public static String parseTimeStampToString(long timeStamp) {
+        Calendar cal = Calendar.getInstance(Locale.ENGLISH);
+        cal.setTimeInMillis(timeStamp * 1000);
+        String date = DateFormat.format("yyyy-MM-dd", cal).toString();
+        return date;
+    }
+
 }

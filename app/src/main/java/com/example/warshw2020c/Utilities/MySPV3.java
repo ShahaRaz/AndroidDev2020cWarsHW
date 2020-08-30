@@ -3,28 +3,25 @@ package com.example.warshw2020c.Utilities;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class MySPV3 {
 
     public interface KEYS {
-        public static final String LAST_GAME = "LAST_GAME";
-        public static final String TOP_N_LIST_OBJ = "TOP_N_LIST_OBJ";
-        public static final String USER_LAST_LOGIN_TIME_STAMP = "USER_LAST_LOGIN_TIME_STAMP";
-        public static final String USER_MAIL = "USER_MAIL";
+          String LAST_GAME = "LAST_GAME";
+          String TOP_N_LIST_OBJ = "TOP_N_LIST_OBJ";
     }
 
     // TODO: 27/08/2020 insert Gson here, so i dont need to import & create new Instance every time i insert object as string into here.
 
     private static MySPV3 instance;
     private SharedPreferences prefs;
+    private static final String FILE_NAME = "MAIN_SP";
 
     public static MySPV3 getInstance() {
         return instance;
     }
 
     private MySPV3(Context context) {
-        prefs = context.getApplicationContext().getSharedPreferences("MAIN_SP", Context.MODE_PRIVATE);
+        prefs = context.getApplicationContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
     }
 
     public static MySPV3 initHelper(Context context) {
@@ -55,5 +52,13 @@ public class MySPV3 {
 
     public double getDouble(String KEY, double defValue) {
         return Double.parseDouble(getString(KEY, String.valueOf(defValue)));
+    }
+    public void clearSP(String sharedPrefFileName){
+        /*Only call from MyApp Input string LABELED above as FILE_NAME*/
+//        /*ex:         MySPV3.getInstance().clearSP("APP_SP_DB");  */
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.apply();
+
     }
 }

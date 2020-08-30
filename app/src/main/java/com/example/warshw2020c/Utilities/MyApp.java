@@ -13,7 +13,6 @@ public class MyApp extends Application {
         super.onCreate();
         MySPV3.initHelper(this);
         MySignal.initHelper(this);
-
-
+       // MySPV3.getInstance().clearSP("MAIN_SP");
     }
 }

@@ -5,25 +5,34 @@ import com.example.warshw2020c.Utilities.MyDate;
 import java.text.DecimalFormat;
 
 public class TopScore {
-   private String nameOfPlayer;
+   private String nameOfPlayer ;
    private MyDate dateRecorded;
-   private double lat = 0.0;
-   private double lon = 0.0;
-   private long timeStamp=0;
-   private int numOfMoves=NOT_REGISTERED_VALUE;
+   private double lat ;
+   private double lon ;
+   private long timeStamp;
+   private int numOfMoves;
    public static DecimalFormat df = new DecimalFormat("#.##");
 
    public static final int NOT_REGISTERED_VALUE = 999999; // very high score, when comparing - every battle will beat it
 
-    public TopScore() {}
+    public TopScore() {
+        long currentTimeStamp =  System.currentTimeMillis() / 1000L;
+        nameOfPlayer = "unRegistered " +  NOT_REGISTERED_VALUE;
+        this.dateRecorded = new MyDate(currentTimeStamp);
+        lat = 0.0;
+        lon = 0.0;
+        timeStamp=0;
+        numOfMoves=NOT_REGISTERED_VALUE;
+    }
 
     public TopScore(double lat, double lon, long timeStamp, int numOfMoves, String nameOfPlayer) {
+        long currentTimeStamp =  System.currentTimeMillis() / 1000L;
         this.nameOfPlayer = nameOfPlayer;
         this.lat = lat;
         this.lon = lon;
         this.timeStamp = timeStamp;
         this.numOfMoves = numOfMoves;
-        this.dateRecorded = new MyDate(11,11,2011); // TODO: 25/08/2020 find a way to send the current date over here
+        this.dateRecorded = new MyDate(currentTimeStamp);
 
     }
 
@@ -71,9 +80,7 @@ public class TopScore {
         return numOfMoves;
     }
 
-    public void setNumOfMoves(int numOfMoves) {
-        this.numOfMoves = numOfMoves;
-    }
+
 
 
 
@@ -82,8 +89,8 @@ public class TopScore {
     @Override
     public String toString() {
         return
-                getNumOfMoves() +
-                "-" + getNameOfPlayer() ;
+                this.numOfMoves +
+                "-" + this.nameOfPlayer ;
 //               + "-" + dateRecorded.toString();
     }
 }
