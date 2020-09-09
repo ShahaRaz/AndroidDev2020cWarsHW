@@ -16,10 +16,9 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Activity_TopNBoard extends AppCompatActivity {
+public class OLD_Activity_TopNBoard extends AppCompatActivity {
     private ArrayList<TextView> txt_top10_nN = new ArrayList<TextView>();
     private Button btn_top10_backButton;
-
     public final static String TOP_10_PLAYERS = "ObjArrlistOfScores";
     public final static String LAST_GAME_PLAYED = "ObjScore";
 

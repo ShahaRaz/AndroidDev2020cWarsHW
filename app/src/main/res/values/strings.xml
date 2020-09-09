@@ -8,7 +8,7 @@
     <string name="bat_attack">Bat attack</string>
     <string name="knives">knives</string>
     <string name="winnerName">Batman</string>
-    <string name="winnerAnnouncement">Has Won</string>
+    <string name="winnerAnnouncement">Won</string>
     <string name="player1_image">Player1 image</string>
     <string name="winners_image">Winner\'s image</string>
     <string name="laser">laser</string>
@@ -29,7 +29,11 @@
     <string name="_7_best_name">7 best name</string>
     <string name="_8_best_name">8 best name</string>
     <string name="_9_best_name">9 best name</string>
-    <string name="_10_best_name" >10 best name</string>
->
+    <string name="_10_best_name">10 best name</string>
 
+    <string name="map_key" translatable="false">AIzaSyB_qsP8AOP_P0MdlPz-48TDaJYjTP3vbjo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="back">Back</string>
+    <string name="top_n_board">Top N Board</string>
 </resources>

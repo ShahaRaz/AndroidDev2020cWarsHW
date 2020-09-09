@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.warshw2020c.Board.Activity_TopNBoard;
+import com.example.warshw2020c.Fragments.Activity_TopNBoard;
 import com.example.warshw2020c.Utilities.MySPV3;
 import com.example.warshw2020c.Utilities.MySignalV2;
 
@@ -41,6 +41,7 @@ public class Activity_Menu extends AppCompatActivity {
         btn_menu_PlayGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                MySignalV2.getInstance().vibrate(300);
                 Intent intentBattle = new Intent(Activity_Menu.this,Activity_Battle.class);
                 startActivity(intentBattle);
             }

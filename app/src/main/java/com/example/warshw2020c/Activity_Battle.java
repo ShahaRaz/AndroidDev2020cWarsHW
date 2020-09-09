@@ -1,8 +1,13 @@
 package com.example.warshw2020c;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -15,8 +20,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.warshw2020c.Board.Activity_TopNBoard;
+import com.example.warshw2020c.Fragments.Activity_TopNBoard;
+import com.example.warshw2020c.Utilities.MyLocation;
 import com.example.warshw2020c.Utilities.MySPV3;
+import com.example.warshw2020c.Utilities.MySignalV2;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -49,7 +56,27 @@ public class Activity_Battle extends AppCompatActivity {
     private int hitCounterP1;
     private int hitCounterP2;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults.length == 0) {
+            // alert - no permission
+            return;
 
+        }
+        if(requestCode == MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    //viewAskToGetLocation();
+                    //return;
+                }
+            }
+        }
+        // alert - no permission
+        return;
+    }
 
 
 
@@ -194,13 +221,13 @@ public class Activity_Battle extends AppCompatActivity {
         btnsPlayer_1_Attack.add((Button)findViewById(R.id.btn_battle_atk1));
         btnsPlayer_1_Attack.add((Button)findViewById(R.id.btn_battle_atk2));
         btnsPlayer_1_Attack.add((Button)findViewById(R.id.btn_battle_atk3));
-       // for(Button btn : btnsPlayer_1_Attack) btn.setOnClickListener(bottomClickeListener);
+       // for(Button btn : btnsPlayer_1_Attack) btn.setOnClickListener(buttonClickeListener);
         for(Button btn : btnsPlayer_1_Attack) btn.setEnabled(false);
 
         btnsPlayer_2_Attack.add((Button)findViewById(R.id.btn_battle_atk4));
         btnsPlayer_2_Attack.add((Button)findViewById(R.id.btn_battle_atk5));
         btnsPlayer_2_Attack.add((Button)findViewById(R.id.btn_battle_atk6));
-       // for(Button btn : btnsPlayer_2_Attack) btn.setOnClickListener(bottomClickeListener);
+       // for(Button btn : btnsPlayer_2_Attack) btn.setOnClickListener(buttonClickeListener);
         for(Button btn : btnsPlayer_2_Attack) btn.setEnabled(false);
 
         btn_battle_backButton = findViewById(R.id.btn_battle_backButton);
@@ -225,7 +252,7 @@ public class Activity_Battle extends AppCompatActivity {
         // UNCOMMENT setOnClickListeners inorder to enable __ Manual Tap Battle __
     }
 
-    private View.OnClickListener bottomClickeListener = new View.OnClickListener() {
+    private View.OnClickListener buttonClickeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             atkNum = Integer.parseInt(((Button) view).getTag().toString());
@@ -295,12 +322,12 @@ public class Activity_Battle extends AppCompatActivity {
 
         if(playerName.equals(getString(R.string.Player2Name))){
             img_battle_winnerPic.setImageDrawable(getDrawable(R.drawable.ic_superman));
-            setLblAnnounceWinner(getText(R.string.Player2Name));
+            setLblAnnounceWinner(getText(R.string.Player2Name),hitCounterP2);
 
         }
         else{
             img_battle_winnerPic.setImageDrawable(getDrawable(R.drawable.ic_batman));
-            setLblAnnounceWinner(getText(R.string.Player1Name));
+            setLblAnnounceWinner(getText(R.string.Player1Name),hitCounterP1);
         }
 
 
@@ -315,16 +342,45 @@ public class Activity_Battle extends AppCompatActivity {
             Log.d("saveBattleScoreToSP" , "cant save results if game not done yet");
 
         else{
+            double[] valuesLatLon = new double[2]; // lat,lon
             long currentTimeStamp =  System.currentTimeMillis() / 1000L;
+            try {
+                // have permission?
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            buildAlertMessageNoGps();
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
+                }
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    valuesLatLon[0]=30.0;
+                    valuesLatLon[1]=30.0;
+                }
+                else{
+                    valuesLatLon = MyLocation.getInstance().activityAskForLocation();
+                }
+/*
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
+
+                    boolean Result = MyLocation.requestFineLocationPermission(this);
+                Log.d("Ask Location Permission: " , ""+ Result);
+
+
+ */
+
+            } catch (Exception e) { // No location access
+                Log.d(MyLocation.KEYS.NO_LOCATION_PERMISSION , "  No location access Granted ");
+                //setting default values
+                valuesLatLon[0]=30.0;
+                valuesLatLon[1]=30.0;
+            }
             Gson json = new Gson();
-            String scoreAsJson =  json.toJson(new TopScore(30.0,30.0,currentTimeStamp, winnersHitCount,playerName));
+            String scoreAsJson =  json.toJson(new TopScore(valuesLatLon[0],valuesLatLon[1],currentTimeStamp, winnersHitCount,playerName));
             MySPV3.getInstance().putString(MySPV3.KEYS.LAST_GAME ,scoreAsJson);
 
         }
     }
 
-    private void setLblAnnounceWinner(CharSequence playerName) {
-        String lblText = playerName + " " + getText(R.string.winnerAnnouncement);
+    private void setLblAnnounceWinner(CharSequence playerName,int strikeCount) {
+        String lblText = playerName + " " + getText(R.string.winnerAnnouncement) + " with " + strikeCount + " Strikes!";
         lbl_battle_announceWinnerName.setText(lblText);
 
     }
@@ -354,9 +410,10 @@ public class Activity_Battle extends AppCompatActivity {
                 currentHP -= 10;
             else if (atkNumber % NUMBER_OF_ATTACKS == 1)
                 currentHP -= 20;
-            else //(atkNumber%NUMBER_OF_ATTACKS==2)
-               currentHP -= 50;
-
+            else { //(atkNumber%NUMBER_OF_ATTACKS==2)
+                currentHP -= 50;
+                MySignalV2.getInstance().vibrate(200);
+            }
             pBar_battle_Player2ProgressBar.setProgress(currentHP);
             return currentHP; // updated after damage reduced
 

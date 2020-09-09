@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.warshw2020c">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".Utilities.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".Board.Activity_TopNBoard"></activity>
+        android:theme="@style/AppTheme"
+        tools:ignore="googleAppIndexingWarning">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCIecq7WZqdFfpJagP7YMWkr8cyAvlkQq4">
+        </meta-data>
+
+
+        <activity
+            android:name=".Fragments.Activity_TopNBoard"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+
+
+        <activity
+            android:name=".Board.OLD_Activity_TopNBoard"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".Activity_Battle"
-  ></activity>
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".Activity_Menu"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -21,8 +43,10 @@
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

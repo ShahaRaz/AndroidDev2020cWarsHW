@@ -1,14 +1,18 @@
 package com.example.warshw2020c;
 
+import android.app.Activity;
+import android.util.Log;
+
 import com.example.warshw2020c.Utilities.MyDate;
+import com.example.warshw2020c.Utilities.MyLocation;
 
 import java.text.DecimalFormat;
 
 public class TopScore {
    private String nameOfPlayer ;
    private MyDate dateRecorded;
-   private double lat ;
-   private double lon ;
+   private double latitude;
+   private double longitude;
    private long timeStamp;
    private int numOfMoves;
    public static DecimalFormat df = new DecimalFormat("#.##");
@@ -19,22 +23,27 @@ public class TopScore {
         long currentTimeStamp =  System.currentTimeMillis() / 1000L;
         nameOfPlayer = "unRegistered " +  NOT_REGISTERED_VALUE;
         this.dateRecorded = new MyDate(currentTimeStamp);
-        lat = 0.0;
-        lon = 0.0;
+        latitude = 0.0;
+        longitude = 0.0;
         timeStamp=0;
         numOfMoves=NOT_REGISTERED_VALUE;
     }
 
     public TopScore(double lat, double lon, long timeStamp, int numOfMoves, String nameOfPlayer) {
         long currentTimeStamp =  System.currentTimeMillis() / 1000L;
-        this.nameOfPlayer = nameOfPlayer;
-        this.lat = lat;
-        this.lon = lon;
+        this.latitude = lat;
+        this.longitude = lon;
         this.timeStamp = timeStamp;
         this.numOfMoves = numOfMoves;
+        this.nameOfPlayer = nameOfPlayer;
         this.dateRecorded = new MyDate(currentTimeStamp);
-
     }
+
+    public void setLocationCoordinates(double lat,double lon){
+        this.latitude =lat;
+        this.longitude =lon;
+    }
+
 
     public String getNameOfPlayer() {
         return nameOfPlayer;
@@ -52,20 +61,20 @@ public class TopScore {
         this.dateRecorded = dateRecorded;
     }
 
-    public double getLat() {
-        return lat;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setLat(double lat) {
-        this.lat = lat;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getLon() {
-        return lon;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLon(double lon) {
-        this.lon = lon;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public long getTimeStamp() {
@@ -79,11 +88,6 @@ public class TopScore {
     public int getNumOfMoves() {
         return numOfMoves;
     }
-
-
-
-
-
 
 
     @Override

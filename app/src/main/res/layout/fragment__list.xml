@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.Fragment_List">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n1"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_1_best_name"
+                app:cornerRadius="25dp"
+                android:tag="1"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_2_best_name"
+                app:cornerRadius="25dp"
+                android:tag="2"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_3_best_name"
+                app:cornerRadius="25dp"
+                android:tag="3"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n4"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_4_best_name"
+                app:cornerRadius="25dp"
+                android:tag="4"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n5"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_5_best_name"
+                android:tag="5"
+                app:cornerRadius="25dp"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n6"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_6_best_name"
+                app:cornerRadius="25dp"
+                android:tag="6"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n7"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_7_best_name"
+                app:cornerRadius="25dp"
+                android:tag="7"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n8"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_8_best_name"
+                app:cornerRadius="25dp"
+                android:tag="8"
+                android:textSize="20sp" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n9"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_9_best_name"
+                app:cornerRadius="25dp"
+                android:tag="9"
+                android:textSize="20sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_topN_n10"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="start"
+                android:text="@string/_10_best_name"
+                app:cornerRadius="25dp"
+                android:tag="10"
+                android:textSize="20sp" />
+        </LinearLayout>
+</androidx.core.widget.NestedScrollView>
+

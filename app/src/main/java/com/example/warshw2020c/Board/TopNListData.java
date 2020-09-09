@@ -61,6 +61,7 @@ public class TopNListData { // so we can save to SP w/o the need of saving array
         }
         Log.d("________afterBinarySearch" , "position is  " + pos );
         scoreTopNLinkedList.add((pos), lastScore);
+        scoreTopNLinkedList.removeLast(); // keep it in order
     }
 
 /*USING ARRAYLIST WITH BINARY SEARCH : [USE IF DECIDE TO GO BACK TO LINKED LIST IMPELEMTATION ] */
