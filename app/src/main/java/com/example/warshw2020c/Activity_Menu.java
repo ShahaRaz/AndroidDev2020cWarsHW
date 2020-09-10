@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.warshw2020c.Fragments.Activity_TopNBoard;
-import com.example.warshw2020c.Utilities.MySPV3;
 import com.example.warshw2020c.Utilities.MySignalV2;
 
 public class Activity_Menu extends AppCompatActivity {

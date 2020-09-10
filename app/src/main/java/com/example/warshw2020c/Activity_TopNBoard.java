@@ -1,4 +1,4 @@
-package com.example.warshw2020c.Fragments;
+package com.example.warshw2020c;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
@@ -6,6 +6,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.warshw2020c.Fragments.CallBack_List;
+import com.example.warshw2020c.Fragments.CallBack_Map;
+import com.example.warshw2020c.Fragments.Fragment_List;
+import com.example.warshw2020c.Fragments.Fragment_Map;
 import com.example.warshw2020c.R;
 import com.example.warshw2020c.TopScore;
 import com.google.android.material.button.MaterialButton;

@@ -4,7 +4,7 @@ package com.example.warshw2020c;
 /*for now. this class is not in use.. KEEPING IT FOR FUTURE IMPLEMENTATION */
 import java.util.ArrayList;
 
-public class SuperHero {
+public class SuperHero_unUsed {
     private String name;
     private boolean isGifted;
     private int healPointsHP;
@@ -14,9 +14,9 @@ public class SuperHero {
     private ArrayList<TopScore> scoresTop10Arrlist;
 
 
-    public SuperHero() { }
+    public SuperHero_unUsed() { }
 
-    public SuperHero(String name, boolean isGifted, int healPointsHP, String atk1, String atk2, String atk3) {
+    public SuperHero_unUsed(String name, boolean isGifted, int healPointsHP, String atk1, String atk2, String atk3) {
         this.name = name;
         this.isGifted = isGifted;
         this.healPointsHP = healPointsHP;

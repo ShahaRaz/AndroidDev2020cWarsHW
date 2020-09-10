@@ -6,9 +6,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.warshw2020c.Fragments.Activity_TopNBoard;
 import com.example.warshw2020c.Utilities.MyAudioPlayer;
 import com.example.warshw2020c.Utilities.MyLocation;
 import com.example.warshw2020c.Utilities.MySPV3;
@@ -37,8 +36,8 @@ public class Activity_Battle extends AppCompatActivity {
     private static final int MAX_HP = 200;
     private static final int HP_RED_BAR_VALUE = 60;
     private ProgressBar pBar_battle_Player1ProgressBar, pBar_battle_Player2ProgressBar;
-    private ArrayList<Button> btnsPlayer_1_Attack = new ArrayList<Button>();
-    private ArrayList<Button> btnsPlayer_2_Attack = new ArrayList<Button>();
+    private ArrayList<Button> btnsPlayer_1_Attack = new ArrayList<>();
+    private ArrayList<Button> btnsPlayer_2_Attack = new ArrayList<>();
     private ImageView btn_battle_rollDice;
     private Random rng = new Random(); // random number generator
     private TextView lbl_battle_announceWinnerName;
@@ -82,9 +81,9 @@ public class Activity_Battle extends AppCompatActivity {
                 }
 
             break;
+            //.. add other cases if needed
         }
         // alert - no permission
-        return;
     }
 
 
@@ -327,7 +326,8 @@ public class Activity_Battle extends AppCompatActivity {
 
     }
 
-    private void announceWinner(String playerName,int winnersHitCount) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void announceWinner(String playerName, int winnersHitCount) {
 
         isGameDone=true;
         getLocationCoordinates();

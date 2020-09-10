@@ -1,5 +1,6 @@
 package com.example.warshw2020c.Fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.example.warshw2020c.Board.TopNListData;
+import com.example.warshw2020c.TopNListData;
 import com.example.warshw2020c.R;
 import com.example.warshw2020c.TopScore;
 import com.example.warshw2020c.Utilities.MySPV3;
@@ -97,7 +97,7 @@ public class Fragment_List extends Fragment {
     // _______________________________________________________
 
 
-    private ArrayList<MaterialButton> btn_topN_numN = new ArrayList<MaterialButton>();
+    private ArrayList<MaterialButton> btn_topN_numN = new ArrayList<>();
     private Button btn_top10_backButton;
     public final static String TOP_10_PLAYERS = "ObjArrlistOfScores";
     public final static String LAST_GAME_PLAYED = "ObjScore";
@@ -106,6 +106,7 @@ public class Fragment_List extends Fragment {
     private TopScore lastScore;
 
 
+    @SuppressLint("SetTextI18n")
     private void addTextToButtons() {
         for(int i=0;i<TopNListData.NUMBER_OF_TOP_SCORES_RECORDED;i++){
             btn_topN_numN.get(i).setText((i+1) + ") " + topNList.getArr().get(i).toString());

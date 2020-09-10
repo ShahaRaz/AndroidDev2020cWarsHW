@@ -12,7 +12,28 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+
+
+
+        //READ the API key from ./secure.properties into R.string.maps.api.key
+        //To add your Maps API key to this project:
+        // 1. create a fiel ./secure.properties
+        //2 Add this line, where you YOUR_API_KEY is your API key:
+        def secureProps = new Properties()
+        if (file("secure.properties").exists()){
+            file("secure.properties")?.withInputStream { secureProps.load(it) }
+        }
+        resValue "string", "maps_api_key", (secureProps.getProperty("MAPS_API_KEY") ?: "")
+
+
     }
+
+
+
+
+
 
     buildTypes {
         release {
@@ -21,6 +42,10 @@ android {
         }
     }
 }
+
+
+
+
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])

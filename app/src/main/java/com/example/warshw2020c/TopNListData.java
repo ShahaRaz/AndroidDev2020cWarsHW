@@ -1,4 +1,4 @@
-package com.example.warshw2020c.Board;
+package com.example.warshw2020c;
 
 import android.util.Log;
 
@@ -59,7 +59,7 @@ public class TopNListData { // so we can save to SP w/o the need of saving array
                 break;
             pos++;
         }
-        Log.d("________afterBinarySearch" , "position is  " + pos );
+       // Log.d("____afterBinarySearch" , "position is  " + pos );
         scoreTopNLinkedList.add((pos), lastScore);
         scoreTopNLinkedList.removeLast(); // keep it in order
     }
