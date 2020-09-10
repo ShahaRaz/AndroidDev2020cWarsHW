@@ -84,7 +84,7 @@ public class Fragment_List extends Fragment {
         public void onClick(View view) {
             int playerRank = Integer.parseInt(((MaterialButton) view).getTag().toString());
             Log.d("pttt","  " + playerRank);
-            callBack_TopNBoard.listChoosePlayerNumberN(topNList.getArr().get(playerRank));
+            callBack_TopNBoard.listChoosePlayerNumberN(topNList.getArr().get(playerRank-1)); //index from 0
         }
     };
 

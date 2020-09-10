@@ -128,7 +128,7 @@ public class Fragment_Map extends Fragment implements OnMapReadyCallback {
         map.setMinZoomPreference(5);
         LatLng telAviv = new LatLng(32.073841,34.792090);
         lastMarkerSelected = map.addMarker((new MarkerOptions().position(telAviv).title("Azrieli Towers TLV")));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(telAviv,13)); // number between 1-20 (20 must zoomed in)
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(telAviv,10)); // number between 1-20 (20 must zoomed in)
     }
 
     public void markNewPoint(double lat,double lon,String lbl){
@@ -139,7 +139,7 @@ public class Fragment_Map extends Fragment implements OnMapReadyCallback {
         LatLng tempPoint = new LatLng(lat, lon);
         lastMarkerSelected = map.addMarker((new MarkerOptions().position(tempPoint).title(lbl))
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))); // change color
-        map.moveCamera(CameraUpdateFactory.newLatLng(tempPoint));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempPoint,10)); // number between 1-20 (20 must zoomed in)
         mMarkerArray.add(lastMarkerSelected); // create arrayList of markers
         }
 

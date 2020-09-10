@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -28,6 +29,7 @@ public class MyLocation extends FragmentActivity {
     private String lastLocationString;
     private double lastLocationLat;
     private double lastLocationLon;
+    Location lastKnownLocation;
 
 
     public interface KEYS {
@@ -79,7 +81,7 @@ public class MyLocation extends FragmentActivity {
             if(grantResults[0]==PackageManager.PERMISSION_GRANTED)
             if (ContextCompat.checkSelfPermission(appContext, Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
             }
         }
 
@@ -108,18 +110,21 @@ public class MyLocation extends FragmentActivity {
 
  */
 
-    public double[]activityAskForLocation() throws Exception {//TODO:08/09/2020 make it possible to ask permissions inside here instead of the calling functing ASK GUY
-        if(ContextCompat.checkSelfPermission(appContext,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED)
-            throw new Exception(MyLocation.KEYS.NO_LOCATION_PERMISSION);
-        else {
+    public double[] activityAskForLocation() {//TODO:08/09/2020 make it possible to ask permissions inside here instead of the calling functing ASK GUY
+        if(ContextCompat.checkSelfPermission(appContext,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED) {
+            double[] resultBad = {0.0, 0.0};
+            return resultBad;
+        }
+        else { // permission is granted
             initLocationManagerNListener();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+
             MySignalV2.getInstance().showToast(this.lastLocationLat + "," + this.lastLocationLon);
-            double[] result = {lastLocationLat, lastLocationLon};
-            return result;
+            double[] resultGood = {lastLocationLat, lastLocationLon};
+            return resultGood;
         }
     }
-//}
+
 
 
     public static boolean requestFineLocationPermission(Activity callerActivity){
@@ -134,6 +139,7 @@ public class MyLocation extends FragmentActivity {
     }
 
 
+
     private void initLocationManagerNListener() {
         if (ActivityCompat.checkSelfPermission(appContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -142,9 +148,26 @@ public class MyLocation extends FragmentActivity {
                 @Override
                 public void onLocationChanged(@NonNull Location location) {
                     Log.i("MyLocation: ", location.toString());
+                    lastKnownLocation=location;
                     lastLocationString = location.toString();
                     lastLocationLat=location.getLatitude();
                     lastLocationLon=location.getLongitude();
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(@NonNull String provider) {
+                    MySignalV2.getInstance().showToast("Please Activate Location Services");
+                }
+
+                @Override
+                public void onProviderEnabled(@NonNull String provider) {
+                    MySignalV2.getInstance().showToast("Location is on :)");
+
                 }
             };
         }

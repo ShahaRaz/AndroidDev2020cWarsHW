@@ -16,6 +16,6 @@ public class MyApp extends Application {
         MySPV3.initHelper(this);
         MySignal.initHelper(this);
         MyLocation.initHelper(this);
-        MySPV3.getInstance().clearSP("MAIN_SP");
+        //MySPV3.getInstance().clearSP("MAIN_SP");
     }
 }

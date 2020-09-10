@@ -56,6 +56,9 @@ public class Activity_Battle extends AppCompatActivity {
     private int hitCounterP1;
     private int hitCounterP2;
 
+    double[] valuesLatLon = new double[2]; // lat,lon
+    long currentTimeStamp;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -64,19 +67,24 @@ public class Activity_Battle extends AppCompatActivity {
             return;
 
         }
-        if(requestCode == MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED) {
-//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                    //viewAskToGetLocation();
-                    //return;
+
+        switch (requestCode) {
+            case MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        valuesLatLon = MyLocation.getInstance().activityAskForLocation();
+                    }
+                else {
+                    MySignalV2.getInstance().showToast("Location Permission denied");
+                    valuesLatLon[0]=0.0;
+                    valuesLatLon[1]=0.0;
                 }
-            }
+
+            break;
         }
         // alert - no permission
         return;
     }
+
 
 
 
@@ -318,6 +326,7 @@ public class Activity_Battle extends AppCompatActivity {
     private void announceWinner(String playerName,int winnersHitCount) {
 
         isGameDone=true;
+        getLocationCoordinatesForSP();
         saveBattleScoreToSP(playerName,winnersHitCount);
 
         if(playerName.equals(getString(R.string.Player2Name))){
@@ -337,47 +346,49 @@ public class Activity_Battle extends AppCompatActivity {
 
     }
 
-    private void saveBattleScoreToSP(String playerName,int winnersHitCount){
-        if (!isGameDone)
-            Log.d("saveBattleScoreToSP" , "cant save results if game not done yet");
-
-        else{
-            double[] valuesLatLon = new double[2]; // lat,lon
-            long currentTimeStamp =  System.currentTimeMillis() / 1000L;
-            try {
-                // have permission?
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            buildAlertMessageNoGps();
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
-                }
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    valuesLatLon[0]=30.0;
-                    valuesLatLon[1]=30.0;
-                }
-                else{
-                    valuesLatLon = MyLocation.getInstance().activityAskForLocation();
-                }
-/*
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
-
-                    boolean Result = MyLocation.requestFineLocationPermission(this);
-                Log.d("Ask Location Permission: " , ""+ Result);
-
-
- */
-
-            } catch (Exception e) { // No location access
-                Log.d(MyLocation.KEYS.NO_LOCATION_PERMISSION , "  No location access Granted ");
-                //setting default values
-                valuesLatLon[0]=30.0;
-                valuesLatLon[1]=30.0;
-            }
-            Gson json = new Gson();
-            String scoreAsJson =  json.toJson(new TopScore(valuesLatLon[0],valuesLatLon[1],currentTimeStamp, winnersHitCount,playerName));
-            MySPV3.getInstance().putString(MySPV3.KEYS.LAST_GAME ,scoreAsJson);
-
+    private void getLocationCoordinatesForSP() {
+        // have permission?
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
         }
+        valuesLatLon = MyLocation.getInstance().activityAskForLocation();
     }
+
+    private void saveBattleScoreToSP(String playerName,int winnersHitCount){
+
+        currentTimeStamp = System.currentTimeMillis() / 1000L;
+
+
+        valuesLatLon = MyLocation.getInstance().activityAskForLocation();
+
+        Gson json = new Gson();
+        String scoreAsJson = json.toJson(new TopScore(valuesLatLon[0], valuesLatLon[1], currentTimeStamp, winnersHitCount, playerName));
+        MySPV3.getInstance().putString(MySPV3.KEYS.LAST_GAME, scoreAsJson);
+    }
+// TODO: 10/09/2020 delete me if im not needed 
+//    private double[] getLocationCoordinates(){
+//        double[] valuesLatLon = new double[2]; // lat,lon
+//
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//                valuesLatLon[0]=30.0;
+//                valuesLatLon[1]=30.0;
+//            }
+//            else{
+//                valuesLatLon = MyLocation.getInstance().activityAskForLocation();
+//            }
+///*
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
+//
+//                    boolean Result = MyLocation.requestFineLocationPermission(this);
+//                Log.d("Ask Location Permission: " , ""+ Result);
+//
+//
+// */
+//            valuesLatLon[0]=30.0;
+//            valuesLatLon[1]=30.0;
+//    }
+
+
 
     private void setLblAnnounceWinner(CharSequence playerName,int strikeCount) {
         String lblText = playerName + " " + getText(R.string.winnerAnnouncement) + " with " + strikeCount + " Strikes!";
