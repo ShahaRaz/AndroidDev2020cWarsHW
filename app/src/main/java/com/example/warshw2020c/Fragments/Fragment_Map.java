@@ -135,10 +135,10 @@ public class Fragment_Map extends Fragment implements OnMapReadyCallback {
         if(lon==0.0)
             return; // invalid location
         // got a valid location:
-        lastMarkerSelected.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN)); // revert color of last marker selected
+        lastMarkerSelected.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)); // revert color of last marker selected
         LatLng tempPoint = new LatLng(lat, lon);
         lastMarkerSelected = map.addMarker((new MarkerOptions().position(tempPoint).title(lbl))
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))); // change color
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))); // change color
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(tempPoint,10)); // number between 1-20 (20 must zoomed in)
         mMarkerArray.add(lastMarkerSelected); // create arrayList of markers
         }

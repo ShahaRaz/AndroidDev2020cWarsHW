@@ -3,7 +3,6 @@ package com.example.warshw2020c.Board;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,7 +28,7 @@ public class OLD_Activity_TopNBoard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity__top10_board);
+        setContentView(R.layout._old_activity__top10_board);
       //  getDataFromSP();
         associateViews();
       //  addTextToButtons();

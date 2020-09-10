@@ -19,10 +19,6 @@ public class Activity_Menu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity__menu);
-
-        MySPV3.initHelper(this);
-        MySignalV2.initHelper(this);
-
         associateViews();
 
     }

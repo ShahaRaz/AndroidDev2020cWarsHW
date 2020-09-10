@@ -53,25 +53,7 @@ public class MyLocation extends FragmentActivity {
         return instance;
     }
 
-//    // TODO: 08/09/2020 check if necessary [ This is a Handler for PermissionRequestResult ]
-//    // Solution from OneNote-> Android Dev -> Fragments + callBack -> Callback2 page 5 |
-//    //  | Instead of extending the entire class FragmentActivity
-//    FragmentActivity fragmentActivity = new FragmentActivity() {
-//        @Override
-//        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//
-//                if (ContextCompat.checkSelfPermission(appContext, Manifest.permission.ACCESS_FINE_LOCATION)
-//                        == PackageManager.PERMISSION_GRANTED) {
-//                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-//                }
-//            }
-//
-//        }
-//    };
-//  | Instead of extending the entire class FragmentActivity
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -86,7 +68,6 @@ public class MyLocation extends FragmentActivity {
         }
 
     }
-
 
 /* // TODO:08/09/2020make ot possible to ask permissions inside here instead of the calling functing ASK GUY
     public double[] activityAskForLocation(Activity callerActivity) throws Exception {
@@ -109,6 +90,7 @@ public class MyLocation extends FragmentActivity {
 
 
  */
+
 
     public double[] activityAskForLocation() {//TODO:08/09/2020 make it possible to ask permissions inside here instead of the calling functing ASK GUY
         if(ContextCompat.checkSelfPermission(appContext,Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED) {

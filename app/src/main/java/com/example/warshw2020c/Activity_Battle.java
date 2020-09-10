@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.warshw2020c.Fragments.Activity_TopNBoard;
+import com.example.warshw2020c.Utilities.MyAudioPlayer;
 import com.example.warshw2020c.Utilities.MyLocation;
 import com.example.warshw2020c.Utilities.MySPV3;
 import com.example.warshw2020c.Utilities.MySignalV2;
@@ -31,7 +33,7 @@ import java.util.Random;
 
 public class Activity_Battle extends AppCompatActivity {
     private static final int NUMBER_OF_ATTACKS = 3;
-    public static final int DELAY_TIME_IN_MILISEC = 10;
+    public static final int DELAY_TIME_IN_MILISEC = 2000;
     private static final int MAX_HP = 200;
     private static final int HP_RED_BAR_VALUE = 60;
     private ProgressBar pBar_battle_Player1ProgressBar, pBar_battle_Player2ProgressBar;
@@ -105,6 +107,7 @@ public class Activity_Battle extends AppCompatActivity {
         StartDiceLottery();
         setProgressBars();
         setWinnerTags();
+        getLocationCoordinates(); // getting early so it will be ready by the time the game is done.
 //        startGameWTimer(); // after lottery
     }
 
@@ -285,8 +288,9 @@ public class Activity_Battle extends AppCompatActivity {
         //0->2 player 1 attacked  // 3->5 player 2 attacked
         int damagedHP = reduceDamageFromOpp(atkNumber);
         changeColor(damagedHP,atkNumber);
-        checkWinner(damagedHP, atkNumber);
-        toggleAtkGroup();
+        checkWinner(damagedHP, atkNumber); // checks if game is done here
+        if(!isGameDone)
+            toggleAtkGroup();
 
 
     }
@@ -326,7 +330,7 @@ public class Activity_Battle extends AppCompatActivity {
     private void announceWinner(String playerName,int winnersHitCount) {
 
         isGameDone=true;
-        getLocationCoordinatesForSP();
+        getLocationCoordinates();
         saveBattleScoreToSP(playerName,winnersHitCount);
 
         if(playerName.equals(getString(R.string.Player2Name))){
@@ -346,7 +350,7 @@ public class Activity_Battle extends AppCompatActivity {
 
     }
 
-    private void getLocationCoordinatesForSP() {
+    private void getLocationCoordinates() {
         // have permission?
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, MyLocation.KEYS.MY_PERMISSIONS_REQUEST_LOCATION);
@@ -357,10 +361,7 @@ public class Activity_Battle extends AppCompatActivity {
     private void saveBattleScoreToSP(String playerName,int winnersHitCount){
 
         currentTimeStamp = System.currentTimeMillis() / 1000L;
-
-
         valuesLatLon = MyLocation.getInstance().activityAskForLocation();
-
         Gson json = new Gson();
         String scoreAsJson = json.toJson(new TopScore(valuesLatLon[0], valuesLatLon[1], currentTimeStamp, winnersHitCount, playerName));
         MySPV3.getInstance().putString(MySPV3.KEYS.LAST_GAME, scoreAsJson);
@@ -412,17 +413,25 @@ public class Activity_Battle extends AppCompatActivity {
 
 
     private int reduceDamageFromOpp(int atkNumber) {
-        Log.i("id in button  ", atkNumber + " ");
+        Log.d("pttt _id in button _ ", atkNumber + " ");
         int currentHP;
+//       final MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.noise_p1_atk1);
         if (atkNumber / NUMBER_OF_ATTACKS == 0) { // player 1 is attacking
             hitCounterP1++;
             currentHP = pBar_battle_Player2ProgressBar.getProgress();
-            if (atkNumber % NUMBER_OF_ATTACKS == 0)
+
+            if (atkNumber % NUMBER_OF_ATTACKS == 0) {
                 currentHP -= 10;
-            else if (atkNumber % NUMBER_OF_ATTACKS == 1)
+                MyAudioPlayer.getInstance().play(R.raw.noise_p1_atk1);
+            }
+            else if (atkNumber % NUMBER_OF_ATTACKS == 1) {
                 currentHP -= 20;
+                MyAudioPlayer.getInstance().play(R.raw.noise_p1_atk2);
+
+            }
             else { //(atkNumber%NUMBER_OF_ATTACKS==2)
                 currentHP -= 50;
+                MyAudioPlayer.getInstance().play(R.raw.noise_p1_atk3);
                 MySignalV2.getInstance().vibrate(200);
             }
             pBar_battle_Player2ProgressBar.setProgress(currentHP);
@@ -432,13 +441,18 @@ public class Activity_Battle extends AppCompatActivity {
         else { // player 2 is attacking
             currentHP = pBar_battle_Player1ProgressBar.getProgress();
             hitCounterP2++;
-            if (atkNumber % NUMBER_OF_ATTACKS == 0)
-                currentHP -= 10;
-            else if (atkNumber % NUMBER_OF_ATTACKS == 1)
-                currentHP -= 20;
-            else // (atkNumber%NUMBER_OF_ATTACKS==2)
-                currentHP -= 50;
 
+            if (atkNumber % NUMBER_OF_ATTACKS == 0) {
+                currentHP -= 10;
+                MyAudioPlayer.getInstance().play(R.raw.noise_p2_atk1);
+            } else if (atkNumber % NUMBER_OF_ATTACKS == 1) {
+                currentHP -= 20;
+                MyAudioPlayer.getInstance().play(R.raw.noise_p2_atk2);
+            } else{ // (atkNumber%NUMBER_OF_ATTACKS==2)
+                currentHP -= 50;
+                MyAudioPlayer.getInstance().play(R.raw.noise_p2_atk3);
+                MySignalV2.getInstance().vibrate(400);
+            }
             pBar_battle_Player1ProgressBar.setProgress(currentHP);
             return currentHP; // updated after damage reduced
         }

@@ -17,7 +17,7 @@ public class Activity_TopNBoard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_2_top_n_board);
+        setContentView(R.layout.activity_top_n_board);
         associateViews();
         initFragments();
 

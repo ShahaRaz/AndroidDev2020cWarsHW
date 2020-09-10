@@ -5,19 +5,23 @@ package com.example.warshw2020c.Utilities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
+import com.example.warshw2020c.R;
 
 
 public class MySignalV2 {
 
     private static MySignalV2 instance;
     private static Context appContext;
+    private static MediaPlayer mediaPlayer;
 
     public static MySignalV2 getInstance() {
         return instance;
@@ -28,8 +32,9 @@ public class MySignalV2 {
     }
 
     public static MySignalV2 initHelper(Context context) {
-        if (instance == null)
+        if (instance == null) {
             instance = new MySignalV2(context);
+        }
         return instance;
     }
 
@@ -109,4 +114,7 @@ public class MySignalV2 {
         if (mProgressDialog != null && mProgressDialog.isShowing())
             mProgressDialog.dismiss();
     }
+
+
+
 }

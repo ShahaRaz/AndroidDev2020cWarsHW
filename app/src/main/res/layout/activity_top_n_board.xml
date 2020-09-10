@@ -24,7 +24,6 @@
                 android:text="@string/back"
                 android:textSize="15sp"
                 app:backgroundTint="@color/AlternativeMaterial"
-
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
