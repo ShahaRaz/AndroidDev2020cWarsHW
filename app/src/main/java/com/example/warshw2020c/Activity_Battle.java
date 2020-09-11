@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -127,12 +128,21 @@ public class Activity_Battle extends AppCompatActivity {
 
     private void runNextTimedTurn() {
         int rndmAtkNum = (rng.nextInt(NUMBER_OF_ATTACKS)); // 0->2
-        if(isPlayer1PlayingNextTurn)
-            rndmAtkNum+=NUMBER_OF_ATTACKS; // player's 2 turn
+        Log.d("rtttttt runNextImed", "P1: " +hitCounterP1 + " P2: " + hitCounterP2  );
+        if(isPlayer1PlayingNextTurn) {
+            float currentRotation = this.btnsPlayer_2_Attack.get(rndmAtkNum).getRotation();
+            this.btnsPlayer_2_Attack.get(rndmAtkNum).animate().rotation(currentRotation+(-360)).setDuration(500);
+            rndmAtkNum += NUMBER_OF_ATTACKS; // player's 2 turn
+        }
+        else { // player 1 attacks
+            float currentRotation = this.btnsPlayer_1_Attack.get(rndmAtkNum).getRotation();
+            this.btnsPlayer_1_Attack.get(rndmAtkNum).animate().rotation(currentRotation+(360)).setDuration(500);
 
+        }
         atkButtonClicked(rndmAtkNum);
 
     }
+
 
     private void StartDiceLottery() {
         btn_battle_rollDice = findViewById(R.id.btn_battle_rollDice);
